@@ -1,0 +1,16 @@
+before_script:
+- psql -c 'create database travis_ci_test;' -U postgres
+language: ruby
+rvm:
+- 2.6.3
+script:
+- bundle exec rails db:reset db:setup db:migrate RAILS_ENV=test
+- bundle exec rspec
+services: postgresql
+deploy:
+  provider: heroku
+  api_key:
+    secure: rXyDdUFRWc+bZMTdDNQ7HaPiSEwZiTa6fosQuaH8nHUKE+rf9XK7O3Ntdh0Ze2r17TlnNmVjInJW1DIbePcv0ppf0uAYeYVtY7o6NYqyerFMnB4CeSVMRKBX9UbGh3Ov3ZRujdprUYQJHXIfvjhVxYrrdG+JhqubcWhHh0jadROS63bi3XPzipydY7xlqtRDXmx6Q2RksQ8d44Odo5myHTOEpo7/XHMiQ2yOnskPU9XVpbjaRO5DVhTe7Ygaf/sVrS+q3MnFfwpB9A7LUOqTplt8qnfB/LevVWcnWgcpdA0lNsqp7yR/YJqfAAr+Zex+pau1YvgYVXtEd91955Dsl/wDsqusQjWRzsT5S8YeUTqgxw5whjCuhbGfs182CuYiGeZizyx1YVw6Cf0WwoQbebiiqjyshH7xHGzRgSz3z9gfomUXIUQDHECRncqmavhT+VNWzFJhTgyX3JZzVpstxCFEJmojo7cTGUlodcXo0IvYu8XGPlsS34X9Jxv+wt8hup5gHJJMLZtC0ucg1wA9HNvmZbK4noPvJXBlh8EO3pEf8gLfh9QSieMDdtt5LANCd2gNw0bUKaG0wfTkCoQdfamAG4RuixIjNlrQI84PAMAmBcrAjFROLKHpakptXH1r2j3tUfbiuPxi8goiEd7jKeSQZc7YR6rbqmwnjQaRp0s=
+  app: covive
+  on:
+    repo: johnktravers/covive
